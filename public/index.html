@@ -40,5 +40,67 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <style type='text/css'>
+	.embeddedServiceHelpButton .helpButton .uiButton {
+		background-color: #222222;
+		font-family: "Verdana", sans-serif;
+	}
+	.embeddedServiceHelpButton .helpButton .uiButton:focus {
+		outline: 1px solid #222222;
+	}
+</style>
+
+<script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
+<script type='text/javascript'>
+	var initESW = function(gslbBaseURL) {
+		embedded_svc.settings.displayHelpButton = true; //O falso
+		embedded_svc.settings.language = 'es-MX'; //Por ejemplo, ingrese 'en' o 'en-US'
+
+		embedded_svc.settings.defaultMinimizedText = 'Online'; //(Toma como valor predeterminado Sesión de chat con un experto)
+		embedded_svc.settings.disabledMinimizedText = 'Offline'; //(Toma como valor predeterminado Agente sin conexión)
+
+		embedded_svc.settings.loadingText = 'Cargando...'; //(Toma como valor predeterminado Cargando)
+		embedded_svc.settings.storageDomain = 'maria-cher.com.ar'; //(Establece el dominio para su desarrollo de modo que los visitantes puedan navegar por subdominios durante una sesión de chat)
+
+		// Configuración para Plática
+		//embedded_svc.settings.directToButtonRouting = function(prechatFormData) {
+			// Dynamically changes the button ID based on what the visitor enters in the pre-chat form.
+			// Returns a valid button ID.
+		//};
+		//embedded_svc.settings.prepopulatedPrechatFields = {}; //Establece el relleno automático de los campos del formulario previo al chat
+		//embedded_svc.settings.fallbackRouting = []; //Una matriz de identificadores de botones, de usuario o userId_buttonId
+		//embedded_svc.settings.offlineSupportMinimizedText = '...'; //(Toma como valor predeterminado la opción Contacto)
+
+		embedded_svc.settings.enabledFeatures = ['LiveAgent'];
+		embedded_svc.settings.entryFeature = 'LiveAgent';
+
+		embedded_svc.init(
+			'https://milcien.my.salesforce.com',
+			'https://milcien.secure.force.com/liveAgentSetupFlow',
+			gslbBaseURL,
+			'00D4x000003vxB8',
+			'Equipo_de_Atenci_n',
+			{
+				baseLiveAgentContentURL: 'https://c.la3-c1-ia4.salesforceliveagent.com/content',
+				deploymentId: '5724x000000tHDu',
+				buttonId: '5734x000000xTt7',
+				baseLiveAgentURL: 'https://d.la3-c1-ia4.salesforceliveagent.com/chat',
+				eswLiveAgentDevName: 'Equipo_de_Atenci_n',
+				isOfflineSupportEnabled: false
+			}
+		);
+	};
+
+	if (!window.embedded_svc) {
+		var s = document.createElement('script');
+		s.setAttribute('src', 'https://milcien.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.onload = function() {
+			initESW(null);
+		};
+		document.body.appendChild(s);
+	} else {
+		initESW('https://service.force.com');
+	}
+</script>
   </body>
 </html>
